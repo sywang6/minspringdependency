@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+<bean id="classA"  class="org.wsy.auto.reject.ClassA">
+  <property name="b" ref="classB"></property>
+</bean>
+
+<bean id="classB"  class="org.wsy.auto.reject.ClassB">
+  <property name="a" ref="classA"></property>
+</bean>
+
+<bean id="b"  class="org.wsy.auto.reject.ClassB">
+  <property name="a" ref="classA"></property>
+</bean>
+
+<bean id="c"  class="org.wsy.auto.reject.ClassC">
+  <constructor-arg name="name" value="test"></constructor-arg>
+</bean>
+
+<bean id="classC"  class="org.wsy.auto.reject.ClassC">
+  <constructor-arg name="name" value="test"></constructor-arg>
+</bean>
+
+<!-- 默认byname -->
+<bean id="classA2"  class="org.wsy.auto.reject.ClassA" autowire="default"/>
+
+<!-- byType按类型,如果配置了多个类型一致的bean则会报错 -->
+<bean id="classA2"  class="org.wsy.auto.reject.ClassA" autowire="byType"/>
+</beans>
+    

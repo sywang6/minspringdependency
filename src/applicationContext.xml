@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+<bean id="helloWorld" class="org.wsy.hello.HelloWorld">
+<property name="content" value="zhang yu"/>
+</bean>
+
+<bean id="car" class="org.wsy.hello.Car">
+  <constructor-arg name="changdi" value="BMW"></constructor-arg>
+ <!--  特殊字符需要用<![CDATA[]]>包裹起来 -->
+ <constructor-arg name="mingcheng">
+  <value><![CDATA[<China>]]></value>
+ </constructor-arg>
+  <constructor-arg name="speed" value="1000000"></constructor-arg>
+</bean>
+
+<bean id="car2" class="org.wsy.hello.Car">
+  <constructor-arg name="changdi" value="UK"></constructor-arg>
+ <!--  特殊字符需要用<![CDATA[]]>包裹起来 -->
+ <constructor-arg name="mingcheng" value="lk">
+ </constructor-arg>
+  <constructor-arg name="speed" value="800"></constructor-arg>
+</bean>
+
+<bean id="person" class="org.wsy.hello.Person">
+ <property name="name" value="wangshiyou"></property>
+ <property name="age" value="26"></property>
+ <property name="car" ref="car"></property>
+ <!-- 可以级联赋值,但是先需要先set car的实例 -->
+ <property name="car.mingcheng" value="BMW"></property>
+</bean>
+
+<bean id="person2" class="org.wsy.hello.Person">
+ <property name="name" value="zhangyu"></property>
+ <property name="age" value="26"></property>
+ <property name="car">
+  <bean class="org.wsy.hello.Car">
+  	<property name="mingcheng" value="lk"></property>
+  </bean>
+ </property>
+ </bean>
+ 
+ <!-- p命名空间,简化依赖注入 -->
+ <bean id="person7" class="org.wsy.hello.Person" p:name="章鱼" p:car-ref="car"/>
+ 
+ <!-- list map属性注入 -->
+ <bean id="superMan" class="org.wsy.hello.SuperMan">
+<!--  <property name="cars">
+  <list>
+  <ref bean="car"/>
+  <ref bean="car2"/>
+  </list>
+ </property> -->
+ <property name="cars" ref="cars">
+ </property>
+ <property name="grilfrends">
+  <map >
+  <entry key="one" value-ref="person7"></entry>
+  <entry key="tow" value-ref="person2"></entry>
+  </map>
+ </property>
+ <property name="age" value="26"></property>
+ <property name="name" value="wsy"></property>
+ </bean>
+ 
+ <!-- util命名空间 -->
+<util:list id="cars">
+ <ref bean="car"/>
+  <ref bean="car2"/>
+</util:list>
+
+<bean id="dataSource" class="org.wsy.hello.DataSource">
+  <property name="properties">
+   <props>
+    <prop key="user">test</prop>
+    <prop key="password">123456</prop>
+    <prop key="jdbcUrl">jdbc:mysql:///test</prop>
+    <prop key="dirverClass">com.mysql.jdbc.driver</prop>
+   </props>
+  </property>
+</bean>
+
+</beans>
+    
